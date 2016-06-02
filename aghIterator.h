@@ -13,7 +13,7 @@ class aghIterator{
 		};*/
     private:
     aghContainer<T>* Pointer;
-    T data;
+    int ile;
     public:
 
         aghIterator()
@@ -25,24 +25,27 @@ class aghIterator{
         aghIterator(aghContainer<T>* nowy)
         {
             Pointer = nowy;
-            data = nowy -> at(0);
+            ile = 0;
         }
 
-       /* aghIterator(aghContainer NowyElement)
+       /* ~aghIterator()
         {
-            Pointer = NowyElement[0];
-        }*/
+            delete Pointer;
+        }
 
-
+        aghIterator<T>(const aghIterator<T> &kopia)
+        {
+            this -> Pointer = kopia -> Pointer;
+        }
+*/
 		T operator*()
 		{
-			return Pointer.data;
+			return Pointer -> at(ile);
 		}
 
         T current()
 		{
-			//Pointer -> data = value;
-			return Pointer -> data;
+			return Pointer -> at(ile);
 		}
 
 		aghIterator& operator++()
@@ -53,35 +56,40 @@ class aghIterator{
 
 		aghIterator& operator++(T)
 		{
-			aghIterator tmp = *this;
-			Pointer = Pointer -> next;
-			return tmp;
+		    if (ile < size())
+			{
+			    aghIterator tmp = *this;
+                Pointer = Pointer -> next;
+                return tmp;
+			}
+			else
+            {
+                throw aghException(0, "Index out of range", __FILE__, __LINE__);
+            }
 		}
 
-		aghIterator* next()
+		T next()
 		{
-			return Pointer -> next;
+		    ile++;
+			return Pointer -> at(ile);
 		}
 
-		aghIterator* prev()
+		T prev()
 		{
-			return Pointer -> prev;
+		    if (ile > 0)
+		    {
+		        ile--;
+                return Pointer -> at(ile);
+		    }
+		    else
+            {
+                throw aghException(0, "Index out of range", __FILE__, __LINE__);
+            }
 		}
 
 		aghIterator* first()
 		{
-			if (Pointer -> prev == NULL)
-			{
-				return Pointer;
-			}
-			else
-			{
-				while (Pointer -> prev != NULL)
-				{
-					Pointer = Pointer -> prev;
-				}
-				return Pointer;
-			}
+			return Pointer;
 		}
 
 		aghIterator* last()
@@ -136,7 +144,7 @@ class aghIterator{
 			return *this;
 		}
 
-		bool operator==(const aghIterator& i)
+		bool operator==(const aghContainer<T>& i)
 		{
 			if (Pointer == i.Pointer)
 			{
