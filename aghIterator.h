@@ -33,7 +33,6 @@ class aghIterator{
         {
             delete Pointer;
         }
-
         aghIterator<T>(const aghIterator<T> &kopia)
         {
             this -> Pointer = kopia -> Pointer;
@@ -84,7 +83,7 @@ class aghIterator{
 
         aghIterator<T>& prev() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < Pointer->size()) czy (ile < Pointer->size() - 1)
 		{
-            if (ile < Pointer->size())
+            if (ile > 0)
             {
                 --ile;
                 return *this;
@@ -92,6 +91,9 @@ class aghIterator{
             else
             {
                 throw aghException(0, "Index out of range", __FILE__, __LINE__);
+                 *this = NULL;
+                --ile;
+                return *this;
             }
 		}
 
