@@ -68,10 +68,17 @@ class aghIterator{
             }
 		}
 
-		T next()
+		aghIterator<T> next() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < Pointer->size()) czy (ile < Pointer->size() - 1)
 		{
-		    ile++;
-			return Pointer -> at(ile);
+            if (ile < Pointer->size())
+            {
+                ++ile;
+                return *this;
+            }
+            else
+            {
+                throw aghException(0, "Index out of range", __FILE__, __LINE__);
+            }
 		}
 
 		T prev()
@@ -87,63 +94,50 @@ class aghIterator{
             }
 		}
 
-		aghIterator* first()
+		aghIterator first()
 		{
-			return Pointer;
+		    aghIterator<T> zwracany;
+		    zwracany.Pointer = this->Pointer;
+		    zwracany.ile = 0;
+			return zwracany;
 		}
 
-		aghIterator* last()
+		aghIterator last()
 		{
-			if (Pointer -> next == NULL)
-			{
-				return Pointer;
-			}
-			else
-			{
-				while (Pointer -> next != NULL)
-				{
-					Pointer = Pointer -> next;
-				}
-				return Pointer;
-			}
-		 }
+		    aghIterator<T> zwracany;
+		    zwracany.Pointer = this->Pointer;
+		    zwracany.ile = this->Pointer->size()-1;
+			return zwracany;
+		}
 
 
 
 		void atFirst()
 		{
-			while (Pointer -> prev != NULL)
-			{
-				Pointer = Pointer -> prev;
-			}
+			ile = 0;
 		}
 
 		void atLast()
 		{
-			while (Pointer -> next != NULL)
-			{
-				Pointer = Pointer -> next;
-			}
+			ile = Pointer->size()-1;
 		}
 
 		int size()
 		{
-			int licznik = 0;
-			while (Pointer != NULL)
-			{
-				licznik ++;
-				Pointer++;
-			}
-			return licznik;
+			return Pointer->size()-2;
 		}
-
-		//przypisanie
 		aghIterator& operator= (const aghIterator& i)
 		{
 			Pointer = i.Pointer;
 			return *this;
 		}
 
+		/*T operator[] (const int &i)
+		{
+            T zawracny;
+			return zwr;
+		}
+*/
 		bool operator==(const aghContainer<T>& i)
 		{
 			if (Pointer == i.Pointer)
