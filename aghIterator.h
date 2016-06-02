@@ -4,14 +4,15 @@
 
 template <class T>
 class aghIterator{
-    protected:
+    //protected:
 	/*	struct Node
 		{
 			aghContainer<T>* object;
 			Node* next;
 			Node* prev;
 		};*/
-    private:
+    //private:
+    public:
     aghContainer<T>* Pointer;
     int ile;
     public:
@@ -68,7 +69,7 @@ class aghIterator{
             }
 		}
 
-		aghIterator<T> next() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < Pointer->size()) czy (ile < Pointer->size() - 1)
+		aghIterator<T>& next() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < Pointer->size()) czy (ile < Pointer->size() - 1)
 		{
             if (ile < Pointer->size())
             {
@@ -81,14 +82,14 @@ class aghIterator{
             }
 		}
 
-		T prev()
+        aghIterator<T>& prev() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < Pointer->size()) czy (ile < Pointer->size() - 1)
 		{
-		    if (ile > 0)
-		    {
-		        ile--;
-                return Pointer -> at(ile);
-		    }
-		    else
+            if (ile < Pointer->size())
+            {
+                --ile;
+                return *this;
+            }
+            else
             {
                 throw aghException(0, "Index out of range", __FILE__, __LINE__);
             }
@@ -132,12 +133,11 @@ class aghIterator{
 			return *this;
 		}
 
-		/*T operator[] (const int &i)
+		T operator[] (const int &i)
 		{
-            T zawracny;
-			return zwr;
+		    return Pointer->at(i);
 		}
-*/
+
 		bool operator==(const aghContainer<T>& i)
 		{
 			if (Pointer == i.Pointer)
