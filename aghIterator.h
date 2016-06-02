@@ -43,7 +43,7 @@ class aghIterator{
 			return Pointer -> at(ile);
 		}
 
-        T current()
+        T& current()
 		{
 			return Pointer -> at(ile);
 		}
@@ -90,7 +90,7 @@ class aghIterator{
             }
             else
             {
-                throw aghException(0, "Index out of range", __FILE__, __LINE__);
+              //  throw aghException(0, "Index out of range", __FILE__, __LINE__);
                  *this = NULL;
                 --ile;
                 return *this;
@@ -129,12 +129,17 @@ class aghIterator{
 		{
 			return Pointer->size()-2;
 		}
-		aghIterator& operator= (const aghIterator& i)
+		aghIterator& operator= (const aghIterator& przypisana)
 		{
-			Pointer = i.Pointer;
+			Pointer = przypisana.Pointer;
 			return *this;
 		}
-
+        aghIterator& operator+= (const T& dodana)
+		{
+		    T pom = Pointer->at(ile);
+			Pointer->replace(ile,dodana+pom);
+			return *this;
+		}
 		T operator[] (const int &i)
 		{
 		    return Pointer->at(ile+i);
