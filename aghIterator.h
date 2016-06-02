@@ -135,7 +135,7 @@ class aghIterator{
 
 		T operator[] (const int &i)
 		{
-		    return Pointer->at(i);
+		    return Pointer->at(ile+i);
 		}
 
 		bool operator==(const aghContainer<T>& i)
