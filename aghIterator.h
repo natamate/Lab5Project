@@ -4,166 +4,123 @@
 
 template <class T>
 class aghIterator{
-    //protected:
-	/*	struct Node
-		{
-			aghContainer<T>* object;
-			Node* next;
-			Node* prev;
-		};*/
-    //private:
-    public:
-    aghContainer<T>* wskDoPoj;
+public:
+    aghContainer<T>* wsk;
     int ile;
-    public:
 
-        aghIterator()
-        {
-            wskDoPoj = NULL;
-        }
-
-//konstruktor kopiujacy napisz
-        aghIterator(aghContainer<T>* nowy)
-        {
-            wskDoPoj = nowy;
-            ile = 0;
-        }
-
-       /* ~aghIterator()
-        {
-            delete wskDoPoj;
-        }
-        aghIterator<T>(const aghIterator<T> &kopia)
-        {
-            this -> wskDoPoj = kopia -> wskDoPoj;
-        }
-*/
-		T operator*()
-		{
-			return wskDoPoj -> at(ile);
-		}
-
-        T& current()
-		{
-			return wskDoPoj -> at(ile);
-		}
-        operator int ()
-        {
-            if ((ile < 0 ) || (ile > this -> size()))
-            {
-                return NULL;
-            }
-            else
-            {
-                return 1;
-            }
-        }
-		aghIterator& operator++()
-		{
-			ile++;
-			return *this;
-		}
-
-		aghIterator operator++(int)
-		{
-            aghIterator<T> kopia = *this ;
-             ile ++ ; return kopia;
-        }
-
-		aghIterator<T>& next() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < wskDoPoj->size()) czy (ile < wskDoPoj->size() - 1)
-		{
-            if (ile < wskDoPoj->size())
-            {
-                ++ile;
-                return *this;
-            }
-            else
-            {
-                throw aghException(0, "Index out of range", __FILE__, __LINE__);
-            }
-		}
-
-        aghIterator<T>& prev() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < wskDoPoj->size()) czy (ile < wskDoPoj->size() - 1)
-		{
-            if (ile >= 0)
-            {
-                --ile;
-                return *this;
-            }
-            else
-            {
-                throw aghException(0, "Index out of range", __FILE__, __LINE__);
-               //  *this = NULL;
-              //  --ile;
-               // return *this;
-            }
-		}
-
-		aghIterator first()
-		{
-		    aghIterator<T> zwracany;
-		    zwracany.wskDoPoj = this->wskDoPoj;
-		    zwracany.ile = 0;
-			return zwracany;
-		}
-
-		aghIterator last()
-		{
-		    aghIterator<T> zwracany;
-		    zwracany.wskDoPoj = this->wskDoPoj;
-		    zwracany.ile = this->wskDoPoj->size()-1;
-			return zwracany;
-		}
-
-
-
-		void atFirst()
-		{
-			ile = 0;
-		}
-
-		void atLast()
-		{
-			ile = size()-1;
-		}
-
-int size() const
+    aghIterator()
     {
-        return this -> wskDoPoj -> size() - ile;
+        wsk = NULL;
     }
-		aghIterator& operator= (const aghIterator& przypisana)
-		{
-			wskDoPoj = przypisana.wskDoPoj;
-			return *this;
-		}
-        aghIterator& operator+= (const T& dodana)
-		{
-		    T pom = wskDoPoj->at(ile);
-			wskDoPoj->replace(ile,dodana+pom);
-			return *this;
-		}
-		T operator[] (const int &i)
-		{
-		    return wskDoPoj->at(ile+i);
-		}
 
-		bool operator==(const aghContainer<T>& i)
-		{
-			if (wskDoPoj == i.wskDoPoj)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+    aghIterator(aghContainer<T>* nowy)
+    {
+        wsk = nowy;
+        ile = 0;
+    }
 
-		bool operator != (const aghIterator& i)
-		{
-			return !(*this == i);
-		}
+    aghIterator<T> &operator= (aghIterator<T> const &w)
+    {
+        if (this == &w)
+        {
+            return *this;
+        }
+        else
+        {
+            ile = w.ile;
+            wsk = w.wsk;
+            return *this;
+        }
+    }
+    //Test 1
+    T& current()
+    {
+        return wsk -> at(ile);
+    }
 
+    aghIterator<T>& next()
+    {
+        ile ++;
+        return *this;
+    }
+
+    aghIterator<T>& prev()
+    {
+        ile --;
+        return *this;
+    }
+
+    aghIterator first()
+    {
+        aghIterator<T> zwracany;
+        zwracany.wsk = this->wsk;
+        zwracany.ile = 0;
+        return zwracany;
+    }
+
+    aghIterator last()
+    {
+        aghIterator<T> zwracany;
+        zwracany.wsk = this->wsk;
+        zwracany.ile = this->wsk->size()-1;
+        return zwracany;
+    }
+
+    void atFirst()
+    {
+        ile = 0;
+    }
+
+    void atLast()
+    {
+        ile = wsk->size()-1;
+    }
+
+    int size() const
+    {
+        return this -> wsk -> size() - ile;
+    }
+
+    const T& operator[] (int i) const
+    {
+        return wsk->at(ile+i);
+    }
+
+    operator int ()
+    {
+        if ((ile < 0 ) || (ile > this -> size()))
+        {
+            return NULL;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    T& operator [] (int i)
+    {
+        return wsk->at(ile+i);
+    }
+
+    const T& operator*() const
+    {
+        return wsk -> at(ile);
+    }
+
+    T& operator* ()
+    {
+        return wsk -> at(ile);
+    }
+
+    aghIterator& operator+(int i)
+    {
+        int tmp = ile + i;
+        aghIterator <T> kopia = *this;
+        while (ile < tmp)
+            kopia = kopia.next();
+        return kopia;
+    }
 
 };
 #endif
