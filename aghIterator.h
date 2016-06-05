@@ -66,9 +66,10 @@ public:
         return zwracany;
     }
 
-    void atFirst()
+     aghIterator& atFirst()
     {
         ile = 0;
+        return *this;
     }
 
     void atLast()
@@ -113,14 +114,18 @@ public:
         return wsk -> at(ile);
     }
 
-    aghIterator& operator+(int i)
+   /* aghIterator operator+(int i)
     {
-        int tmp = ile + i;
-        aghIterator <T> kopia = *this;
-        while (ile < tmp)
-            kopia = kopia.next();
-        return kopia;
+        ile = ile + i;
+        aghIterator<T> zwracany = *this;
+        zwracany.ile = ile + i;
+        return zwracany;
     }
+    aghIterator operator-(int i)
+    {
+        ile-=i;
+        return *this;
+    }*/
 		aghIterator& operator++()
 		{
 			ile++;
@@ -144,6 +149,28 @@ public:
             aghIterator<T> kopia = *this ;
              ile -- ;
              return kopia;
+        }
+        bool operator==(const aghIterator& porownywany)
+        {
+            if (wsk->at(ile) == porownywany.wsk->at(ile))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        bool operator!=(const aghIterator& porownywany)
+        {
+            if (wsk->at(ile) != porownywany.wsk->at(ile))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 };
 #endif
