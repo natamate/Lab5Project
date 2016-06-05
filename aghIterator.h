@@ -60,21 +60,15 @@ class aghIterator{
         }
 		aghIterator& operator++()
 		{
-			wskDoPoj = wskDoPoj -> next;
+			ile++;
 			return *this;
 		}
 
-		aghIterator& operator++(T)
+		aghIterator operator++(int)
 		{
-		    if (ile < size())
-			{
-
-			}
-			else
-            {
-                throw aghException(0, "Index out of range", __FILE__, __LINE__);
-            }
-		}
+            aghIterator<T> kopia = *this ;
+             ile ++ ; return kopia;
+        }
 
 		aghIterator<T>& next() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < wskDoPoj->size()) czy (ile < wskDoPoj->size() - 1)
 		{
