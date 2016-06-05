@@ -47,7 +47,17 @@ class aghIterator{
 		{
 			return wskDoPoj -> at(ile);
 		}
-
+        operator int ()
+        {
+            if ((ile < 0 ) || (ile > this -> size()))
+            {
+                return NULL;
+            }
+            else
+            {
+                return 1;
+            }
+        }
 		aghIterator& operator++()
 		{
 			wskDoPoj = wskDoPoj -> next;
@@ -58,9 +68,7 @@ class aghIterator{
 		{
 		    if (ile < size())
 			{
-			    aghIterator tmp = *this;
-                wskDoPoj = wskDoPoj -> next;
-                return tmp;
+
 			}
 			else
             {
