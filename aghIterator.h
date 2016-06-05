@@ -121,6 +121,17 @@ public:
             kopia = kopia.next();
         return kopia;
     }
+		aghIterator& operator++()
+		{
+			ile++;
+			return *this;
+		}
 
+		aghIterator operator++(int)
+		{
+            aghIterator<T> kopia = *this ;
+             ile ++ ;
+             return kopia;
+        }
 };
 #endif
