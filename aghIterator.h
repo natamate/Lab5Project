@@ -13,44 +13,44 @@ class aghIterator{
 		};*/
     //private:
     public:
-    aghContainer<T>* Pointer;
+    aghContainer<T>* wskDoPoj;
     int ile;
     public:
 
         aghIterator()
         {
-            Pointer = NULL;
+            wskDoPoj = NULL;
         }
 
 //konstruktor kopiujacy napisz
         aghIterator(aghContainer<T>* nowy)
         {
-            Pointer = nowy;
+            wskDoPoj = nowy;
             ile = 0;
         }
 
        /* ~aghIterator()
         {
-            delete Pointer;
+            delete wskDoPoj;
         }
         aghIterator<T>(const aghIterator<T> &kopia)
         {
-            this -> Pointer = kopia -> Pointer;
+            this -> wskDoPoj = kopia -> wskDoPoj;
         }
 */
 		T operator*()
 		{
-			return Pointer -> at(ile);
+			return wskDoPoj -> at(ile);
 		}
 
         T& current()
 		{
-			return Pointer -> at(ile);
+			return wskDoPoj -> at(ile);
 		}
 
 		aghIterator& operator++()
 		{
-			Pointer = Pointer -> next;
+			wskDoPoj = wskDoPoj -> next;
 			return *this;
 		}
 
@@ -59,7 +59,7 @@ class aghIterator{
 		    if (ile < size())
 			{
 			    aghIterator tmp = *this;
-                Pointer = Pointer -> next;
+                wskDoPoj = wskDoPoj -> next;
                 return tmp;
 			}
 			else
@@ -68,9 +68,9 @@ class aghIterator{
             }
 		}
 
-		aghIterator<T>& next() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < Pointer->size()) czy (ile < Pointer->size() - 1)
+		aghIterator<T>& next() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < wskDoPoj->size()) czy (ile < wskDoPoj->size() - 1)
 		{
-            if (ile < Pointer->size())
+            if (ile < wskDoPoj->size())
             {
                 ++ile;
                 return *this;
@@ -81,26 +81,26 @@ class aghIterator{
             }
 		}
 
-        aghIterator<T>& prev() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < Pointer->size()) czy (ile < Pointer->size() - 1)
+        aghIterator<T>& prev() //trzeba sprawdzic czy poza zakres nie wychodizmy (ile < wskDoPoj->size()) czy (ile < wskDoPoj->size() - 1)
 		{
-            if (ile > 0)
+            if (ile >= 0)
             {
                 --ile;
                 return *this;
             }
             else
             {
-              //  throw aghException(0, "Index out of range", __FILE__, __LINE__);
-                 *this = NULL;
-                --ile;
-                return *this;
+                throw aghException(0, "Index out of range", __FILE__, __LINE__);
+               //  *this = NULL;
+              //  --ile;
+               // return *this;
             }
 		}
 
 		aghIterator first()
 		{
 		    aghIterator<T> zwracany;
-		    zwracany.Pointer = this->Pointer;
+		    zwracany.wskDoPoj = this->wskDoPoj;
 		    zwracany.ile = 0;
 			return zwracany;
 		}
@@ -108,8 +108,8 @@ class aghIterator{
 		aghIterator last()
 		{
 		    aghIterator<T> zwracany;
-		    zwracany.Pointer = this->Pointer;
-		    zwracany.ile = this->Pointer->size()-1;
+		    zwracany.wskDoPoj = this->wskDoPoj;
+		    zwracany.ile = this->wskDoPoj->size()-1;
 			return zwracany;
 		}
 
@@ -122,32 +122,32 @@ class aghIterator{
 
 		void atLast()
 		{
-			ile = Pointer->size()-1;
+			ile = size()-1;
 		}
 
-		int size()
-		{
-			return Pointer->size()-2;
-		}
+int size() const
+    {
+        return this -> wskDoPoj -> size() - ile;
+    }
 		aghIterator& operator= (const aghIterator& przypisana)
 		{
-			Pointer = przypisana.Pointer;
+			wskDoPoj = przypisana.wskDoPoj;
 			return *this;
 		}
         aghIterator& operator+= (const T& dodana)
 		{
-		    T pom = Pointer->at(ile);
-			Pointer->replace(ile,dodana+pom);
+		    T pom = wskDoPoj->at(ile);
+			wskDoPoj->replace(ile,dodana+pom);
 			return *this;
 		}
 		T operator[] (const int &i)
 		{
-		    return Pointer->at(ile+i);
+		    return wskDoPoj->at(ile+i);
 		}
 
 		bool operator==(const aghContainer<T>& i)
 		{
-			if (Pointer == i.Pointer)
+			if (wskDoPoj == i.wskDoPoj)
 			{
 				return true;
 			}
