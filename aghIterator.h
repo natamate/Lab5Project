@@ -38,13 +38,13 @@ public:
         return wsk -> at(ile);
     }
 
-    aghIterator<T>& next()
+    aghIterator& next()
     {
         ile ++;
         return *this;
     }
 
-    aghIterator<T>& prev()
+    aghIterator& prev()
     {
         ile --;
         return *this;
@@ -72,9 +72,10 @@ public:
         return *this;
     }
 
-    void atLast()
+    aghIterator& atLast()
     {
         ile = wsk->size()-1;
+        return *this;
     }
 
     int size() const
@@ -114,13 +115,36 @@ public:
         return wsk -> at(ile);
     }
 
-   /* aghIterator operator+(int i)
+    aghIterator& operator+(int i)
     {
         ile = ile + i;
-        aghIterator<T> zwracany = *this;
-        zwracany.ile = ile + i;
-        return zwracany;
+        //aghIterator<T> zwracany = *this;
+        //zwracany.ile = ile + i;
+        //return zwracany;
+        return *this;
     }
+
+    aghIterator operator +=(int i)
+    {
+        ile = ile + i;
+        return *this;
+    }
+
+    aghIterator operator -=(int i)
+    {
+        ile = ile - i;
+        return *this;
+    }
+
+    aghIterator& operator-(int i)
+    {
+        ile = ile - i;
+        //aghIterator<T> zwracany = *this;
+        //zwracany.ile = ile + i;
+        //return zwracany;
+        return *this;
+    }
+    /*
     aghIterator operator-(int i)
     {
         ile-=i;
@@ -152,7 +176,7 @@ public:
         }
         bool operator==(const aghIterator& porownywany)
         {
-            if (wsk->at(ile) == porownywany.wsk->at(ile))
+            if (wsk->at(ile) == porownywany.wsk->at(porownywany.ile))
             {
                 return true;
             }
@@ -163,7 +187,7 @@ public:
         }
         bool operator!=(const aghIterator& porownywany)
         {
-            if (wsk->at(ile) != porownywany.wsk->at(ile))
+            if (wsk->at(ile) != porownywany.wsk->at(porownywany.ile))
             {
                 return true;
             }
