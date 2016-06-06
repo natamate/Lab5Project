@@ -115,13 +115,13 @@ public:
         return wsk -> at(ile);
     }
 
-    aghIterator& operator+(int i)
+    aghIterator operator+(int i)
     {
-        ile = ile + i;
-        //aghIterator<T> zwracany = *this;
-        //zwracany.ile = ile + i;
-        //return zwracany;
-        return *this;
+        //ile = ile + i;
+        aghIterator<T> zwracany = *this;
+        zwracany.ile = ile + i;
+        return zwracany;
+       // return *this;
     }
 
     aghIterator operator +=(int i)
@@ -136,13 +136,13 @@ public:
         return *this;
     }
 
-    aghIterator& operator-(int i)
+    aghIterator operator-(int i)
     {
-        ile = ile - i;
-        //aghIterator<T> zwracany = *this;
-        //zwracany.ile = ile + i;
-        //return zwracany;
-        return *this;
+        //ile = ile + i;
+        aghIterator<T> zwracany = *this;
+        zwracany.ile = ile - i;
+        return zwracany;
+       // return *this;
     }
     /*
     aghIterator operator-(int i)
