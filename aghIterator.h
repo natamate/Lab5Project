@@ -40,12 +40,14 @@ public:
     aghIterator& next()
     {
         presentElementNumber ++;
+        chceckRange();
         return *this;
     }
 
     aghIterator& prev()
     {
         presentElementNumber --;
+        chceckRange();
         return *this;
     }
 
@@ -54,6 +56,7 @@ public:
         aghIterator<T> returnedIer;
         returnedIer.pointerToContainer = this->pointerToContainer;
         returnedIer.presentElementNumber = 0;
+        returnedIer.chceckRange();
         return returnedIer;
     }
 
@@ -62,6 +65,7 @@ public:
         aghIterator<T> returnedIer;
         returnedIer.pointerToContainer = this->pointerToContainer;
         returnedIer.presentElementNumber = this->pointerToContainer->size()-1;
+        returnedIer.chceckRange();
         return returnedIer;
     }
 
@@ -84,6 +88,7 @@ public:
 
     const T& operator[] (int shiftIter) const
     {
+        chceckRange(presentElementNumber+shiftIter);
         return pointerToContainer->at(presentElementNumber+shiftIter);
     }
 
@@ -101,6 +106,7 @@ public:
 
     T& operator [] (int shiftIter)
     {
+        chceckRange(presentElementNumber+shiftIter);
         return pointerToContainer->at(presentElementNumber+shiftIter);
     }
 
@@ -118,18 +124,21 @@ public:
     {
         aghIterator<T> returnedIer = *this;
         returnedIer.presentElementNumber = presentElementNumber + shiftIter;
+        returnedIer.chceckRange();
         return returnedIer;
     }
 
     aghIterator operator +=(int shiftIter)
     {
         presentElementNumber = presentElementNumber + shiftIter;
+        chceckRange();
         return *this;
     }
 
     aghIterator operator -=(int shiftIter)
     {
         presentElementNumber = presentElementNumber - shiftIter;
+        chceckRange();
         return *this;
     }
 
@@ -137,23 +146,27 @@ public:
     {
         aghIterator<T> returnedIer = *this;
         returnedIer.presentElementNumber = presentElementNumber - shiftIter;
+        returnedIer.chceckRange();
         return returnedIer;
     }
 		aghIterator& operator++()
 		{
 			presentElementNumber++;
+			chceckRange();
 			return *this;
 		}
 
 		aghIterator operator++(int)
 		{
             aghIterator<T> returnedIer = *this ;
-             presentElementNumber ++ ;
-             return returnedIer;
+            presentElementNumber ++ ;
+            returnedIer.chceckRange();
+            return returnedIer;
         }
-        		aghIterator& operator--()
+        aghIterator& operator--()
 		{
 			presentElementNumber--;
+			chceckRange();
 			return *this;
 		}
 
@@ -161,6 +174,7 @@ public:
 		{
             aghIterator<T> returnedIer = *this ;
              presentElementNumber -- ;
+             chceckRange();
              return returnedIer;
         }
         bool operator==(const aghIterator& comperedIter)
@@ -177,6 +191,42 @@ public:
         bool operator!=(const aghIterator& comperedIter)
         {
             if (pointerToContainer->at(presentElementNumber) != comperedIter.pointerToContainer->at(comperedIter.presentElementNumber))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        void chceckRange()
+        {
+            if (ifOutOfRange())
+            {
+                throw aghException(0, "Index out of range", __FILE__, __LINE__);
+            }
+        }
+        void chceckRange(int checkedNumber)
+        {
+            if (ifOutOfRange(checkedNumber))
+            {
+                throw aghException(0, "Index out of range", __FILE__, __LINE__);
+            }
+        }
+        bool ifOutOfRange()
+        {
+            if ((presentElementNumber < 0) && ((presentElementNumber > last().presentElementNumber)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        bool ifOutOfRange(int checkedNumber)
+        {
+            if ((checkedNumber < 0) && ((checkedNumber > last().presentElementNumber)))
             {
                 return true;
             }
