@@ -4,10 +4,10 @@
 
 template <class T>
 class aghIterator{
-public:
+private:
     aghContainer<T>* pointerToContainer;
     int presentElementNumber;
-
+public:
     aghIterator()
     {
        pointerToContainer  = NULL;
