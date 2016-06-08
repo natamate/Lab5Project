@@ -68,34 +68,34 @@ public:
         }
     }
 
-    void append(T const& dodawanyElement)
+    void append(T const& newValue)
     {
        if (Head == NULL)
         {
-            Head = new ElementS<T>(dodawanyElement);
+            Head = new ElementS<T>(newValue);
             Head -> setNext(Tail);
         }
         else if ((Head != NULL) && (Tail == NULL))
         {
-            Tail = new ElementS<T>(dodawanyElement);
+            Tail = new ElementS<T>(newValue);
             Head -> setNext(Tail);
         }
         else //dodaj element na koniec
         {
-            ElementS<T>* nowy = new ElementS<T>(dodawanyElement);
-            Tail -> setNext(nowy);
-            Tail = nowy;
+            ElementS<T>* newElement = new ElementS<T>(newValue);
+            Tail -> setNext(newElement);
+            Tail = newElement;
         }
     }
 
     int size() const
     {
-        int licznik = 0;
+        int counter = 0;
         for (Iterator i = Head; i != NULL; i = i -> next())
         {
-            licznik ++;
+            counter ++;
         }
-        return licznik;
+        return counter;
     }
 
     friend ostream& operator<<(ostream& os, aghSlist<T> const& right)
@@ -116,21 +116,21 @@ public:
         return os;
     }
 
-    bool insert(int place, T const& dodawanyElement)
+    bool insert(int place, T const& newValue)
     {
         if ((place >= 0) && (place <= size()))
         {
             if (isEmpty())
             {
-                append(dodawanyElement);
+                append(newValue);
                 return true;
             }
             if (place == 0)
             {
                 ElementS<T>* tmp = Head;
-                ElementS<T>* nowy = new ElementS<T>(dodawanyElement);
-                nowy -> setNext(tmp);
-                Head = nowy;
+                ElementS<T>*  newElement = new ElementS<T>(newValue);
+                newElement -> setNext(tmp);
+                Head = newElement;
                 if (tmp -> next() == NULL)
                 {
                     Tail = tmp;
@@ -138,22 +138,22 @@ public:
                 return true;
             }
             Iterator i = this -> front();
-            int licznik = 1;
-            while (licznik < place)
+            int counter = 1;
+            while (counter < place)
             {
                 i = i -> next();
-                licznik++;
+                counter++;
             }
             if (i -> next() == NULL)
             {
-                append(dodawanyElement);
+                append(newValue);
                 return true;
             }
             ElementS<T>* tmp = i;
-            ElementS<T>* nowy = new ElementS<T>(dodawanyElement);
+            ElementS<T>* newElement = new ElementS<T>(newValue);
             ElementS<T>* tmp2 = tmp -> next();
-            nowy -> setNext(tmp2);
-            tmp -> setNext(nowy);
+            newElement -> setNext(tmp2);
+            tmp -> setNext(newElement);
             return true;
         }
         else
@@ -166,14 +166,14 @@ public:
     {
         if ((place >= 0) && (place <= size()))
         {
-            int licznik = 0;
+            int counter = 0;
             for (Iterator i = Head; i != NULL; i = i->next())
             {
-                if (licznik == place)
+                if (counter == place)
                 {
                     return i -> data;
                 }
-                licznik++;
+                counter++;
             }
         }
         else
@@ -182,9 +182,9 @@ public:
         }
     }
 
-    aghSlist<T>& operator= (aghSlist<T> const& Source)
+    aghSlist<T>& operator= (aghSlist<T> const& source)
     {
-        if (this == &Source)
+        if (this == &source)
 		{
 		    return *this;
 		}
@@ -194,7 +194,7 @@ public:
             {
                  clear();
             }
-            Iterator i = Source.Head;
+            Iterator i = source.Head;
             while (i != NULL)
             {
                 this -> append(i -> getValue());
@@ -204,27 +204,27 @@ public:
         }
     }
 
-    aghSlist<T>(const aghSlist<T> & kopia)
+    aghSlist<T>(const aghSlist<T> & toCopy)
     {
         if (!isEmpty())
         {
             Head = NULL;
         }
-        for (Iterator i = kopia.Head; i != NULL; i = i -> next())
+        for (Iterator i = toCopy.Head; i != NULL; i = i -> next())
         {
             append(i -> getValue());
         }
     }
 
-    aghSlist<T> (const aghContainer<T> &ToCopy)
+    aghSlist<T> (const aghContainer<T> &toCopy)
     {
-        int i = 0;
+        int counter = 0;
         Head = NULL;
         Tail = NULL;
-        while (i < ToCopy.size())
+        while (counter < toCopy.size())
         {
-           append(ToCopy.at(i));
-           i++;
+           append(toCopy.at(i));
+           counter++;
         }
     }
 
@@ -238,24 +238,24 @@ public:
         return *this;
     }
 
-    aghSlist<T>& operator<<(T const& dodawanyElement)
+    aghSlist<T>& operator<<(T const& newValue)
     {
-        append(dodawanyElement);
+        append(newValue);
         return *this;
     }
 
-    bool replace(int place, T const& dodawanyElement)
+    bool replace(int place, T const& newValue)
     {
         if ((place >= 0) && (place <= size()))
         {
-            int ktory = 0;
+            int counter = 0;
             Iterator i = this -> front();
-            while (ktory < place)
+            while (counter < place)
             {
                 i = i -> next();
-                ktory++;
+                counter++;
             }
-            i -> setValue(dodawanyElement);
+            i -> setValue(newValue);
             return true;
         }
         else
@@ -264,7 +264,7 @@ public:
         }
     }
 
-    bool remove(int place) 
+    bool remove(int place)
     {
         if (place >= 0 && place <= size())
         {
@@ -284,18 +284,18 @@ public:
                     Tail = NULL;
                     return true;
                 }
-                int n = 0;
+                int counter = 0;
                 Iterator i = this -> front();
-                while (n < place - 1)
+                while (counter < place - 1)
                 {
                     i = i -> next();
-                    n++;
+                    counter++;
                 }
                 ElementS<T> *tmpPrevious = i;
-                ElementS<T> *Usuwany = i -> next();
-                ElementS<T> *tmpNext = Usuwany -> next();
+                ElementS<T> *removable = i -> next();
+                ElementS<T> *tmpNext = removable -> next();
                 tmpPrevious -> setNext(tmpNext);
-                delete Usuwany;
+                delete removable;
             }
             return true;
         }
@@ -359,9 +359,9 @@ public:
         }
     }
 
-    aghSlist<T>& operator+=(T const& element)
+    aghSlist<T>& operator+=(T const& newValue)
     {
-        append(element);
+        append(newValue);
         return *this;
     }
 
@@ -393,26 +393,26 @@ public:
             return -1;
         }
         Iterator i = Head;
-        int licznik = 0;
-        while (licznik < _from)
+        int counter = 0;
+        while (counter < _from)
         {
             if (i -> next() != NULL)
             {
                 i = i -> next();
             }
-            licznik ++;
+            counter ++;
         }
         if (i -> getValue() == _value)
         {
-            return licznik;
+            return counter;
         }
         for (Iterator j = i; j != NULL; j = j -> next())
         {
             if (j -> getValue() == _value)
             {
-                return licznik;
+                return counter;
             }
-            licznik++;
+            counter++;
         }
         return -1;
     }
