@@ -5,92 +5,91 @@
 template <class T>
 class aghIterator{
 public:
-    aghContainer<T>* wsk;
-    int ile;
+    aghContainer<T>* pointerToContainer;
+    int presentElementNumber;
 
     aghIterator()
     {
-        wsk = NULL;
+       pointerToContainer  = NULL;
     }
 
-    aghIterator(aghContainer<T>* nowy)
+    aghIterator(aghContainer<T>* newIter)
     {
-        wsk = nowy;
-        ile = 0;
+        pointerToContainer = newIter;
+        presentElementNumber = 0;
     }
 
-    aghIterator<T> &operator= (aghIterator<T> const &w)
+    aghIterator<T> &operator= (aghIterator<T> const &assignedIter)
     {
-        if (this == &w)
+        if (this == &assignedIter)
         {
             return *this;
         }
         else
         {
-            ile = w.ile;
-            wsk = w.wsk;
+            presentElementNumber = assignedIter.presentElementNumber;
+            pointerToContainer = assignedIter.pointerToContainer;
             return *this;
         }
     }
-    //Test 1
     T& current()
     {
-        return wsk -> at(ile);
+        return pointerToContainer -> at(presentElementNumber);
     }
 
     aghIterator& next()
     {
-        ile ++;
+        presentElementNumber ++;
         return *this;
     }
 
     aghIterator& prev()
     {
-        ile --;
+        presentElementNumber --;
         return *this;
     }
 
     aghIterator first()
     {
-        aghIterator<T> zwracany;
-        zwracany.wsk = this->wsk;
-        zwracany.ile = 0;
-        return zwracany;
+        aghIterator<T> returnedIer;
+        returnedIer.pointerToContainer = this->pointerToContainer;
+        returnedIer.presentElementNumber = 0;
+        return returnedIer;
     }
 
     aghIterator last()
     {
-        aghIterator<T> zwracany;
-        zwracany.wsk = this->wsk;
-        zwracany.ile = this->wsk->size()-1;
-        return zwracany;
+        aghIterator<T> returnedIer;
+        returnedIer.pointerToContainer = this->pointerToContainer;
+        returnedIer.presentElementNumber = this->pointerToContainer->size()-1;
+        return returnedIer;
     }
 
      aghIterator& atFirst()
     {
-        ile = 0;
+        presentElementNumber = 0;
         return *this;
     }
 
     aghIterator& atLast()
     {
-        ile = wsk->size()-1;
+        presentElementNumber = pointerToContainer->size()-1;
         return *this;
     }
 
     int size() const
     {
-        return this -> wsk -> size() - ile;
+        return this -> pointerToContainer -> size() - presentElementNumber;
     }
 
-    const T& operator[] (int i) const
+    const T& operator[] (int shiftIter) const
     {
-        return wsk->at(ile+i);
+        return pointerToContainer->at(presentElementNumber+shiftIter);
     }
 
     operator int ()
     {
-        if ((ile < 0 ) || (ile > this -> size()))
+        if ((presentElementNumber < 0 ) || (presentElementNumber > this -> size()))
         {
             return NULL;
         }
@@ -100,83 +99,73 @@ public:
         }
     }
 
-    T& operator [] (int i)
+    T& operator [] (int shiftIter)
     {
-        return wsk->at(ile+i);
+        return pointerToContainer->at(presentElementNumber+shiftIter);
     }
 
     const T& operator*() const
     {
-        return wsk -> at(ile);
+        return pointerToContainer -> at(presentElementNumber);
     }
 
     T& operator* ()
     {
-        return wsk -> at(ile);
+        return pointerToContainer -> at(presentElementNumber);
     }
 
-    aghIterator operator+(int i)
+    aghIterator operator+(int shiftIter)
     {
-        //ile = ile + i;
-        aghIterator<T> zwracany = *this;
-        zwracany.ile = ile + i;
-        return zwracany;
-       // return *this;
+        aghIterator<T> returnedIer = *this;
+        returnedIer.presentElementNumber = presentElementNumber + shiftIter;
+        return returnedIer;
     }
 
-    aghIterator operator +=(int i)
+    aghIterator operator +=(int shiftIter)
     {
-        ile = ile + i;
+        presentElementNumber = presentElementNumber + shiftIter;
         return *this;
     }
 
-    aghIterator operator -=(int i)
+    aghIterator operator -=(int shiftIter)
     {
-        ile = ile - i;
+        presentElementNumber = presentElementNumber - shiftIter;
         return *this;
     }
 
-    aghIterator operator-(int i)
+    aghIterator operator-(int shiftIter)
     {
-        //ile = ile + i;
-        aghIterator<T> zwracany = *this;
-        zwracany.ile = ile - i;
-        return zwracany;
-       // return *this;
+        aghIterator<T> returnedIer = *this;
+        returnedIer.presentElementNumber = presentElementNumber - shiftIter;
+        return returnedIer;
     }
-    /*
-    aghIterator operator-(int i)
-    {
-        ile-=i;
-        return *this;
-    }*/
 		aghIterator& operator++()
 		{
-			ile++;
+			presentElementNumber++;
 			return *this;
 		}
 
 		aghIterator operator++(int)
 		{
-            aghIterator<T> kopia = *this ;
-             ile ++ ;
-             return kopia;
+            aghIterator<T> returnedIer = *this ;
+             presentElementNumber ++ ;
+             return returnedIer;
         }
         		aghIterator& operator--()
 		{
-			ile--;
+			presentElementNumber--;
 			return *this;
 		}
 
 		aghIterator operator--(int)
 		{
-            aghIterator<T> kopia = *this ;
-             ile -- ;
-             return kopia;
+            aghIterator<T> returnedIer = *this ;
+             presentElementNumber -- ;
+             return returnedIer;
         }
-        bool operator==(const aghIterator& porownywany)
+        bool operator==(const aghIterator& comperedIter)
         {
-            if (wsk->at(ile) == porownywany.wsk->at(porownywany.ile))
+            if (pointerToContainer->at(presentElementNumber) == comperedIter.pointerToContainer->at(comperedIter.presentElementNumber))
             {
                 return true;
             }
@@ -185,9 +174,9 @@ public:
                 return false;
             }
         }
-        bool operator!=(const aghIterator& porownywany)
+        bool operator!=(const aghIterator& comperedIter)
         {
-            if (wsk->at(ile) != porownywany.wsk->at(porownywany.ile))
+            if (pointerToContainer->at(presentElementNumber) != comperedIter.pointerToContainer->at(comperedIter.presentElementNumber))
             {
                 return true;
             }
