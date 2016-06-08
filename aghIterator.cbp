@@ -32,7 +32,16 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="aghContainer.h" />
+		<Unit filename="aghElement.h" />
+		<Unit filename="aghElementS.h" />
+		<Unit filename="aghException.cpp" />
+		<Unit filename="aghException.h" />
+		<Unit filename="aghInclude.h" />
+		<Unit filename="aghInclude1.h" />
+		<Unit filename="aghIterator.h" />
+		<Unit filename="aghSlist.h" />
+		<Unit filename="ex5main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
